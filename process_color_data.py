@@ -5,12 +5,14 @@ from collections import defaultdict
 import pickle
 import math
 import colorsys
+import numpy as np
+
 
 PATH = 'resized'
 files = [f for f in listdir(PATH) if isfile(join(PATH, f))]
 
 load_backup = input('Load backup? (y/n): ')
-if load_backup == 'y':
+if load_backup == 'n':
     image_colors = {}
     for file in files:
         if 'DS_Store' not in file:
@@ -34,7 +36,8 @@ if load_backup == 'y':
             else:
                 rgb = key
             for i in range(0, image_colors[key]):
-                image_colors_list.append(rgb)
+                if image_colors[key] > 100:
+                    image_colors_list.append(rgb)
 
     with open('image_colors_list.pkl', 'wb') as f:
         pickle.dump(image_colors_list, f)
@@ -45,9 +48,22 @@ else:
     with open('image_colors_list.pkl', 'rb') as f:
         image_colors_list = pickle.load(f)
 
-print(image_colors_list)
 print(len(image_colors_list))
 
+image_colors_list = []
+for key in image_colors:
+    if type(key) is tuple:
+        # remove 4th tuple value
+        if len(key) > 3:
+            rgb = key[:3]
+        else:
+            rgb = key
+        for i in range(0, image_colors[key]):
+            if image_colors[key] > 1:
+                image_colors_list.append(rgb)
+
+with open('image_colors_list.pkl', 'wb') as f:
+    pickle.dump(image_colors_list, f)
 
 # print(image_colors)
 

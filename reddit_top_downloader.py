@@ -12,13 +12,13 @@ reddit = praw.Reddit(client_id=config['client_id'],
                      user_agent="Reddit Top Downloader")
 
 # todo get this from args
-submissions = reddit.subreddit('battlestations').top(limit=3000, time_filter="all")
+submissions = reddit.subreddit('houseplants').top(limit=3000, time_filter="all")
 
 count = 0
 for submission in submissions:
     count += 1
-    file_name = re.findall("\\w+\\.\\w+$", submission.url)
+    file_name = re.findall("\\w+\\.png$|\\w+\\.jpg$", submission.url)
     if len(file_name) > 0:
         print(str(count) + ': ' + submission.url)
         r = requests.get(submission.url, allow_redirects=True)
-        open('downloads/'+file_name[0], 'wb').write(r.content)
+        open('downloads2/'+file_name[0], 'wb').write(r.content)
