@@ -1,0 +1,6 @@
+/downloads/
+/resized/
+config.json
+/venv/
+/.idea/
+.DS_Store
